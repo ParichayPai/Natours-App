@@ -8,6 +8,7 @@ const xss = require("xss-clean");
 const hpp = require('hpp');
 const path = require('path');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const GlobalErrorHandler = require('./controllers/errorController');
@@ -27,6 +28,10 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'))
 
 // 1] GLOBAL MIDDLEWARES
+// Implement CORS
+app.use(cors());
+
+app.options('*', cors());
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
