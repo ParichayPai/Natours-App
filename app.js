@@ -7,6 +7,7 @@ const expressMongoSanitize = require('express-mongo-sanitize');
 const xss = require("xss-clean");
 const hpp = require('hpp');
 const path = require('path');
+const compression = require('compression');
 
 const AppError = require('./utils/appError');
 const GlobalErrorHandler = require('./controllers/errorController');
@@ -69,11 +70,11 @@ app.use(hpp({
   ]
 }));
 
+app.use(compression())
 
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toDateString();
-  // console.log(req.cookies)
   next();
 });
 

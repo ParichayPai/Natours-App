@@ -70,7 +70,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     } else if(req.cookies.jwt){
         token = req.cookies.jwt       
     }
-    // console.log(token);
+
     if(!token){
         return next(new AppError('You are not logged in. Log in to access.', 401));
     }
@@ -80,7 +80,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     //Check if user still exists
     const currentUser = await User.findById(decodedToken.id);
     if(!currentUser){
-        // console.log('missing token')
         return next(new AppError('The user who held the token no longer exists!', 401));
     }
     // Check if user changed password after the token was issued
@@ -133,7 +132,6 @@ exports.logout = (req, res) => {
 
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
-        // console.log(req.user.role);
         if(!roles.includes(req.user.role)){
             return next(new AppError("You don't have permission to perform this action", 403))
         }
