@@ -12,7 +12,7 @@ const signToken = id => {
     });
 }
 
-const createSendToken = async (u req, req, req,ser req,, statusCode, req res) => {
+const createSendToken = async (user, statusCode, req, res) => {
     const token = signToken(user._id);
     const cookieOptions = {
         expires: new Date(
@@ -40,7 +40,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     const newUser = await User.create(req.body);
     const url = `${req.protocol}://${req.get('host')}/me`;
     await new Email(newUser, url).sendWelcome();
-    createSendToken(newUser, 2 req, req, req,01, req, res);
+    createSendToken(newUser, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -57,7 +57,7 @@ exports.login = catchAsync(async (req, res, next) => {
     }
 
 
-    createSendToken(user, 200, req, req, req, res);
+    createSendToken(user, 200, req, res);
 })
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -191,7 +191,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     // Done in userModel
 
     // 4] Log the user in and send JWT 
-    createSendToken(user, 200, req, req, res);
+    createSendToken(user, 200, req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
